@@ -95,6 +95,11 @@ function guardarCliente() {
         console.info(data);
         if( data.error != undefined ) {
             error( data );
+        } else {
+            limpiarError();
+            var html = 'Exito! '+JSON.stringify(data);
+            $("#success").append(html);
+            $("#success").show();
         }
     });
 }

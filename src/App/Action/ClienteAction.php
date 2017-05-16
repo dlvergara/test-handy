@@ -32,9 +32,11 @@ class ClienteAction
                     $cliente->setNombre($params['nombre']);
                     $cliente->setSaldoCupo($params['cupo']);
                     $cliente->setCupo($params['cupo']);
+                    $cliente->setCiudadesIdCiudades($params['ciudad']);
 
                     $this->entityManager->persist($cliente);
                     $this->entityManager->flush($cliente);
+
                     $return['id_cliente'] = $cliente->getId();
                 } else {
                     $return = $this->error;

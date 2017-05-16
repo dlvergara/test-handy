@@ -18,7 +18,7 @@ class Cliente
     /**
      * @ORM\Id
      * @ORM\Column(name="id_cliente", type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
      */
     private $id;
@@ -58,6 +58,30 @@ class Cliente
      * @var string
      */
     private $procentaje_visita;
+
+    /**
+     * @ORM\Column(name="ciudades_id_ciudades", type="integer" )
+     * @var integer
+     */
+    private $ciudades_id_ciudades;
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadesIdCiudades()
+    {
+        return $this->ciudades_id_ciudades;
+    }
+
+    /**
+     * @param mixed $ciudades_id_ciudades
+     * @return Cliente
+     */
+    public function setCiudadesIdCiudades($ciudades_id_ciudades)
+    {
+        $this->ciudades_id_ciudades = $ciudades_id_ciudades;
+        return $this;
+    }
 
     /**
      * @return int
