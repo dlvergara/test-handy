@@ -7,13 +7,15 @@
  */
 $this->layout('layout::default', ['title' => 'Home'])
 ?>
-    Registro de cliente
+    <h1>Registro de cliente</h1>
+    <p id="error" style="display: none;border: 2px solid red;" class="error" >
+    </p>
     <form id="reg-cliente-form" >
         <table>
             <tr>
                 <td>Nit</td>
                 <td>
-                    <input type="number" name="nit" id="nit" />
+                    <input type="text" name="nit" id="nit" />
                 </td>
             </tr>
             <tr>
@@ -70,14 +72,8 @@ $this->layout('layout::default', ['title' => 'Home'])
                 </td>
             </tr>
             <tr>
-                <td>Cupo</td>
-                <td>
-                    <input type="number" name="cupo" id="cupo" />
-                </td>
-            </tr>
-            <tr>
                 <td colspan="2" >
-                    <input type="button" name="save" id="save" value="Guardar" onclick="guardarCliente" />
+                    <input type="button" name="save" id="save" value="Guardar" onclick="guardarCliente()" />
                 </td>
             </tr>
         </table>

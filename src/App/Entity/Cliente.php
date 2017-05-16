@@ -59,4 +59,130 @@ class Cliente
      */
     private $procentaje_visita;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Cliente
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNit()
+    {
+        return $this->nit;
+    }
+
+    /**
+     * @param string $nit
+     * @return Cliente
+     */
+    public function setNit($nit)
+    {
+        $this->nit = $nit;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param string $nombre
+     * @return Cliente
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * @param string $direccion
+     * @return Cliente
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCupo()
+    {
+        return $this->cupo;
+    }
+
+    /**
+     * @param string $cupo
+     * @return Cliente
+     */
+    public function setCupo($cupo)
+    {
+        $this->cupo = $cupo;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaldoCupo()
+    {
+        return $this->saldo_cupo;
+    }
+
+    /**
+     * @param string $saldo_cupo
+     * @return Cliente
+     */
+    public function setSaldoCupo($saldo_cupo)
+    {
+        $this->saldo_cupo = $saldo_cupo;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProcentajeVisita()
+    {
+        return $this->procentaje_visita;
+    }
+
+    /**
+     * @param string $procentaje_visita
+     * @return Cliente
+     */
+    public function setProcentajeVisita($procentaje_visita)
+    {
+        $this->procentaje_visita = $procentaje_visita;
+        return $this;
+    }
+
 }

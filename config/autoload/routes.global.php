@@ -13,6 +13,7 @@ return [
             App\Action\RegVisitaAction::class => App\Action\RegVisitaFactory::class,
             App\Action\GetEstadosAction::class => App\Action\GetEstadosFactory::class,
             App\Action\GetCiudadesAction::class => App\Action\GetCiudadesFactory::class,
+            App\Action\SaveClienteAction::class => App\Action\SaveClienteFactory::class,
         ],
     ],
 

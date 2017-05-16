@@ -67,5 +67,51 @@ function reemplazarCiudad() {
 }
 
 function guardarCliente() {
-    
+
+    var data = {
+        "nit": $("#nit").val(),
+        "nombre": $("#nombreCompleto").val(),
+        "direccion": $("#direccion").val(),
+        "telefono": $("#telefono").val(),
+        "pais": $("#pais").val(),
+        "departamento": $("#departamento").val(),
+        "ciudad": $("#ciudad").val(),
+        "cupo": $("#cupo").val()
+    };
+    console.log( data );
+
+    $.ajax({
+        url: "/api/cliente",
+        method: "POST",
+        data: data,
+        beforeSend: function(){
+            limpiarError();
+        }
+    })
+    .error(function( data ) {
+        console.error(data);
+    })
+    .done(function( data ) {
+        console.info(data);
+        if( data.error != undefined ) {
+            error( data );
+        }
+    });
+}
+
+function error( data ) {
+    var html = '';
+    html += "<ul>";
+    $.each(data.error, function (index1, item1) {
+        html += "<li>" + item1 + "</li>";
+    });
+    html+="</ul>";
+
+    $("#error").append(html);
+    $("#error").show();
+}
+
+function limpiarError() {
+    $("#error").html('');
+    $("#error").hide();
 }
