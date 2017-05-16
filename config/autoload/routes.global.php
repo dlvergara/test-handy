@@ -8,6 +8,7 @@ return [
         ],
         'factories' => [
             App\Action\HomePageAction::class => App\Action\HomePageFactory::class,
+            App\Action\ClienteAction::class => App\Action\ClienteFactory::class
         ],
     ],
 
@@ -23,6 +24,12 @@ return [
             'path' => '/api/ping',
             'middleware' => App\Action\PingAction::class,
             'allowed_methods' => ['GET'],
+        ],
+        [
+            'name' => 'api.create.cliente',
+            'path' => '/api/cliente',
+            'middleware' => App\Action\ClienteAction::class,
+            'allowed_methods' => ['POST'],
         ],
     ],
 ];
