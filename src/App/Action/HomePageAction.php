@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Entity\Visita;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -31,8 +32,8 @@ class HomePageAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $conteoVisitas = 100;
-        $nuevosClientes = 100;
+        $conteoVisitas = count($this->entityManager->getRepository(Visita::class)->findAll());
+        $nuevosClientes = count($this->entityManager->getRepository(Cliente::class)->findAll());
 
         $conteoPaises = $this->getConteoPaises();
         $conteoCiudades = $this->getConteoCiudades();
