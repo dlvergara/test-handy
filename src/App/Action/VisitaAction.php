@@ -12,7 +12,7 @@ use Zend\Diactoros\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Cliente;
 
-class ClienteAction
+class VisitaAction
 {
     private $entityManager;
     public $error = [];

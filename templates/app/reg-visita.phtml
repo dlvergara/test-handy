@@ -1,0 +1,74 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: David Leonardo V
+ * Date: 15/05/2017
+ * Time: 8:21 PM
+ */
+$this->layout('layout::default', ['title' => 'Home'])
+?>
+    <h1>Registro de Visita</h1>
+    <p id="error" style="display: none;border: 2px solid red;" class="error" ></p>
+    <p id="success" style="display: none;border: 2px solid blue;" class="success" ></p>
+    <form id="reg-cliente-form" >
+        <table style="margin-left: 40px;width: 99%;" >
+            <tr>
+                <td>Fecha</td>
+                <td>
+                    <input type="text" name="fecha" id="fecha" value="<?= date('Y-m-d') ?>" />
+                </td>
+            </tr>
+            <tr>
+                <td>Vendedor</td>
+                <td>
+                    <select name="vendedor" id="vendedor" >
+                        <option>-seleccione-</option>
+                        <?php
+                        foreach ($vendedores as $vendedor) {
+                            echo '<option value="'.$vendedor->getId().'" >'.$vendedor->getNombre().'</option>';
+                        }
+                        ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Valor Neto</td>
+                <td>
+                    <input type="number" name="valor_neto" id="valor_neto" />
+                </td>
+            </tr>
+            <tr>
+                <td>Valor Visita</td>
+                <td>
+                    <input type="number" name="valor_visita" id="valor_visita" readonly="readonly" />
+                </td>
+            </tr>
+            <tr>
+                <td>Observaciones</td>
+                <td class=".departamentos" >
+                    <textarea id="observaciones" ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <input type="button" name="save" id="save" value="Guardar" onclick="guardarData()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+<?php $this->start('scripts') ?>
+
+    <script type="text/javascript" src="app/reg-visita.js?v=<?= time() ?>" ></script>
+    <script type="text/javascript" >
+        <?php
+        if( !empty($cliente) ) {
+        ?>
+        var procentajeVisita = <?= empty($cliente['porcentaje_visita'])? 0 : $cliente['porcentaje_visita']; ?>;
+        <?php
+        }
+        ?>
+        asignarEventos();
+    </script>
+
+<?php $this->stop() ?>

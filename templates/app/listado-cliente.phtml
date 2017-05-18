@@ -9,17 +9,29 @@ $this->layout('layout::default', ['title' => 'Home'])
 ?>
     <h1>Listado de Clientes</h1>
 
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Nit</td>
-            <td>Nombre</td>
-            <td>Dirección</td>
-            <td>Cupo</td>
-            <td>Saldo Cupo</td>
-            <td>Porcentaje Visita</td>
-            <td>Ciudad</td>
-        </tr>
+<style>
+    table thead tr td {
+        align-content: center;
+        text-align: center;
+        padding: 5px;
+    }
+</style>
+
+    <table border="1" style="margin: 5px;">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nit</td>
+                <td>Nombre</td>
+                <td>Dirección</td>
+                <td>Cupo</td>
+                <td>Saldo Cupo</td>
+                <td>Porcentaje Visita</td>
+                <td>Ciudad</td>
+                <td> &nbsp; </td>
+            </tr>
+        </thead>
+        <tbody>
         <?php
         /**
          * @var cliente Clientes
@@ -32,21 +44,17 @@ $this->layout('layout::default', ['title' => 'Home'])
                 <td><?= $cliente->getDireccion() ?></td>
                 <td><?= $cliente->getCupo() ?></td>
                 <td><?= $cliente->getSaldoCupo() ?></td>
-                <td>Porcentaje Visita</td>
-                <td>Ciudad</td>
+                <td><?= $cliente->getProcentajeVisita() ?></td>
+                <td><?= $cliente->getCiudadesIdCiudades() ?></td>
+                <td>
+                    <a href="registrar-visita?idCliente=<?= $cliente->getId() ?>" >Reg Visita</a>
+                </td>
             </tr>
         <?php
         }
         ?>
+        </tbody>
     </table>
 
 <?php $this->start('scripts') ?>
-
-    <script type="text/javascript" src="app/reg-cliente.js?v=<?= time() ?>" ></script>
-    <script type="text/javascript" >
-        if( $( "#reg-cliente-form" ).length ) {
-            asignarEventos();
-        }
-    </script>
-
 <?php $this->stop() ?>

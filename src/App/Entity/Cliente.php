@@ -8,12 +8,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Stdlib\JsonSerializable;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="Cliente")
  */
-class Cliente
+class Cliente implements JsonSerializable
 {
     /**
      * @ORM\Id
@@ -209,4 +210,13 @@ class Cliente
         return $this;
     }
 
+    function jsonSerialize()
+    {
+        $data = [
+            'id' => $this->getId(),
+            'nombre' => $this->getNombre(),
+            'porcentaje_visita' => $this->getProcentajeVisita(),
+        ];
+        return $data;
+    }
 }

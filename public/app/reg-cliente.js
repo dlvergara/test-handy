@@ -70,7 +70,6 @@ function getCiudadesFromSelect() {
                     } else {
                         var jsonData = data[i];
                     }
-                    console.log(jsonData);
                     sel.append('<option value="' + jsonData.id + '">' + jsonData.nombre + '</option>');
                 }
             } else { //volver un input
@@ -94,9 +93,9 @@ function guardarCliente() {
         "pais": $("#pais").val(),
         "departamento": $("#departamento").val(),
         "ciudad": $("#ciudad").val(),
-        "cupo": $("#cupo").val()
+        "cupo": $("#cupo").val(),
+        "porcentaje_visitas": $("#porcentaje_visitas").val()
     };
-    console.log( data );
 
     $.ajax({
         url: "/api/cliente",
@@ -108,7 +107,6 @@ function guardarCliente() {
         }
     })
     .error(function( data ) {
-        console.error(data);
         desbloquear();
     })
     .done(function( data ) {
@@ -117,6 +115,7 @@ function guardarCliente() {
             desbloquear();
         } else {
             limpiarError();
+            $("#save").val("Exito!");
             var html = 'Exito! '+JSON.stringify(data);
             $("#success").append(html);
             $("#success").show();

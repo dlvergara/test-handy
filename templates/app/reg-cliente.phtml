@@ -72,6 +72,12 @@ $this->layout('layout::default', ['title' => 'Home'])
                 </td>
             </tr>
             <tr>
+                <td>Porcentaje de Visitas</td>
+                <td>
+                    <input type="number" name="porcentaje_visitas" id="porcentaje_visitas" min="0" max="100" step="1" />
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2" >
                     <input type="button" name="save" id="save" value="Guardar" onclick="guardarCliente()" />
                 </td>

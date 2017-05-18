@@ -14,6 +14,7 @@ return [
             App\Action\GetEstadosAction::class => App\Action\GetEstadosFactory::class,
             App\Action\GetCiudadesAction::class => App\Action\GetCiudadesFactory::class,
             App\Action\SaveClienteAction::class => App\Action\SaveClienteFactory::class,
+            App\Action\ListadoClienteAction::class => App\Action\ListadoClienteFactory::class,
         ],
     ],
 
@@ -58,6 +59,12 @@ return [
             'name' => 'registrar-visita',
             'path' => '/registrar-visita',
             'middleware' => App\Action\RegVisitaAction::class,
+            'allowed_methods' => ['GET'],
+        ],
+        [
+            'name' => 'listado-cliente',
+            'path' => '/listado-cliente',
+            'middleware' => App\Action\ListadoClienteAction::class,
             'allowed_methods' => ['GET'],
         ],
     ],
