@@ -2,6 +2,9 @@
 
 namespace App\Action;
 
+use App\Entity\Ciudades;
+use App\Entity\Estados;
+use app\models\Departamento;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -26,18 +29,7 @@ class ClienteAction
         if( !empty($params) ) {
             try{
                 if( $this->validate($params) ) {
-                    $cliente = new Cliente();
-                    $cliente->setNit(md5($params['nit']));
-                    $cliente->setDireccion($params['direccion']);
-                    $cliente->setNombre($params['nombre']);
-                    $cliente->setSaldoCupo($params['cupo']);
-                    $cliente->setCupo($params['cupo']);
-                    $cliente->setCiudadesIdCiudades($params['ciudad']);
-
-                    $this->entityManager->persist($cliente);
-                    $this->entityManager->flush($cliente);
-
-                    $return['id_cliente'] = $cliente->getId();
+                    $this->saveCliente( $params );
                 } else {
                     $return = $this->error;
                 }
@@ -50,7 +42,7 @@ class ClienteAction
         return new JsonResponse($return);
     }
 
-    function validate( $params ) {
+    function validate( &$params ) {
         if( empty($params['nit']) ) {
             $this->error['error']['nit'] = 'Nit es requerido';
         }
@@ -71,6 +63,10 @@ class ClienteAction
         }
         if( empty($params['ciudad']) ) {
             $this->error['error']['ciudad'] = 'Ciudad es requerido';
+        } else {
+            if( !is_numeric($params['ciudad']) ) {
+                $this->saveCiudadEstado( $params );
+            }
         }
         if( empty($params['cupo']) ) {
             $this->error['error']['cupo'] = 'Cupo es requerido';
@@ -79,5 +75,45 @@ class ClienteAction
         }
 
         return empty($this->error);
+    }
+
+    /**
+     * @param $params
+     */
+    function saveCliente( $params ) {
+
+        $cliente = new Cliente();
+        $cliente->setNit(md5($params['nit']));
+        $cliente->setDireccion($params['direccion']);
+        $cliente->setNombre($params['nombre']);
+        $cliente->setSaldoCupo($params['cupo']);
+        $cliente->setCupo($params['cupo']);
+        $cliente->setCiudadesIdCiudades($params['ciudad']);
+
+        $this->entityManager->persist($cliente);
+        $this->entityManager->flush($cliente);
+
+        $return['id_cliente'] = $cliente->getId();
+    }
+
+    /**
+     *
+     * @param $params
+     */
+    function saveCiudadEstado( &$params ) {
+
+        $departamento = new Estados();
+        $departamento->setNombre($params['departamento']);
+        $departamento->setPaisesIdPaises($params['pais']);
+        $this->entityManager->persist($departamento);
+        $this->entityManager->flush();
+
+        $ciudad = new Ciudades();
+        $ciudad->setNombre($params['ciudad']);
+        $ciudad->setEstadosIdEstados($departamento->getId());
+        $this->entityManager->persist($ciudad);
+        $this->entityManager->flush();
+
+        $params['ciudad'] = $ciudad->getId();
     }
 }

@@ -98,8 +98,8 @@ class Estados implements JsonSerializable
             'paises_id_paises' => $this->getPaisesIdPaises()
         ];
         if( empty($data['nombre']) ) {
-            $data = array();
+            $data = false;
         }
-        return json_encode($data);
+        return $data;
     }
 }

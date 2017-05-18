@@ -12,16 +12,25 @@ function getEstados() {
     if( pais != '' ) {
         $.ajax({
             url: "/api/get-estados?pais="+pais,
+            beforeSend: function(){
+                bloquear();
+            }
         })
         .done(function( data ) {
+            desbloquear();
             var sel = $("#departamento");
-            if( data.length > 0 && data[0] != '[]' ) {
+            if( data.length > 0 ) {
                 sel.replaceWith('<select name="departamento" id="departamento" ><option>-seleccione-</option></select>');
                 sel = $("#departamento");
-                //sel.empty();
-                for (var i=0; i<data.length; i++) {
-                    var jsonData = JSON.parse(data[i]);
-                    sel.append('<option value="' + jsonData.id + '">' + jsonData.nombre + '</option>');
+                for (var i=0; i < data.length; i++) {
+                    if( data[i] != '[]' ) {
+                        if( IsJsonString(data[i]) ) {
+                            var jsonData = JSON.parse(data[i]);
+                        } else {
+                            var jsonData = data[i];
+                        }
+                        sel.append('<option value="' + jsonData.id + '">' + jsonData.nombre + '</option>');
+                    }
                 }
             } else { //volver un input
                 sel.replaceWith('<input type="text" name="departamento" id="departamento">');
@@ -45,15 +54,24 @@ function getCiudadesFromSelect() {
     if( estado != '' ) {
         $.ajax({
             url: "/api/get-ciudades?estado="+estado,
+            beforeSend: function(){
+                bloquear();
+            }
         })
         .done(function( data ) {
+            desbloquear();
             var sel = $("#ciudad");
             if( data.length > 0 ) {
                 sel.replaceWith('<select name="ciudad" id="ciudad" ><option>-seleccione-</option></select>');
                 sel = $("#ciudad");
                 for (var i=0; i<data.length; i++) {
-                    //var jsonData = JSON.parse(data[i]);
-                    sel.append('<option value="' + data[i].id + '">' + data[i].nombre + '</option>');
+                    if( IsJsonString(data[i]) ) {
+                        var jsonData = JSON.parse(data[i]);
+                    } else {
+                        var jsonData = data[i];
+                    }
+                    console.log(jsonData);
+                    sel.append('<option value="' + jsonData.id + '">' + jsonData.nombre + '</option>');
                 }
             } else { //volver un input
                 sel.replaceWith('<input type="text" name="ciudad" id="ciudad">');
@@ -63,7 +81,7 @@ function getCiudadesFromSelect() {
 }
 
 function reemplazarCiudad() {
-    $("#ciudad").replaceWith('<input type="text" name="departamento" id="departamento">');
+    $("#ciudad").replaceWith('<input type="text" name="ciudad" id="ciudad">');
 }
 
 function guardarCliente() {
@@ -85,16 +103,18 @@ function guardarCliente() {
         method: "POST",
         data: data,
         beforeSend: function(){
+            bloquear();
             limpiarError();
         }
     })
     .error(function( data ) {
         console.error(data);
+        desbloquear();
     })
     .done(function( data ) {
-        console.info(data);
         if( data.error != undefined ) {
             error( data );
+            desbloquear();
         } else {
             limpiarError();
             var html = 'Exito! '+JSON.stringify(data);
@@ -119,4 +139,23 @@ function error( data ) {
 function limpiarError() {
     $("#error").html('');
     $("#error").hide();
+}
+
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+function desbloquear(){
+    $("#save").removeAttr('disabled');
+    $("#save").val("Guardar");
+}
+
+function bloquear() {
+    $("#save").attr({'disabled': 'disabled'});
+    $("#save").val("Cargando...");
 }

@@ -25,7 +25,17 @@ class GetEstadosAction
         $params = $request->getQueryParams();
         if( isset($params['pais']) && !empty($params['pais']) ) {
             $idPais = $params['pais'];
-            $estados = $this->entityManager->getRepository(Estados::class )->findBy(['paises_id_paises'=>$idPais]);
+            $estadosMaster = $this->entityManager->getRepository(Estados::class )->findBy(['paises_id_paises'=>$idPais]);
+            foreach ($estadosMaster as $estado) {
+                $data = [
+                    'id' => $estado->getId(),
+                    'nombre' => $estado->getNombre(),
+                    'paises_id_paises' => $estado->getPaisesIdPaises()
+                ];
+                if( !empty($data['nombre']) ) {
+                    $estados[] = $data;
+                }
+            }
         }
 
         return new JsonResponse($estados);

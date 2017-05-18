@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: David Leonardo V
+ * Date: 15/05/2017
+ * Time: 8:21 PM
+ */
+$this->layout('layout::default', ['title' => 'Home'])
+?>
+    <h1>Listado de Clientes</h1>
+
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Nit</td>
+            <td>Nombre</td>
+            <td>Dirección</td>
+            <td>Cupo</td>
+            <td>Saldo Cupo</td>
+            <td>Porcentaje Visita</td>
+            <td>Ciudad</td>
+        </tr>
+        <?php
+        /**
+         * @var cliente Clientes
+         */
+        foreach ($clientes as $key => $cliente ) {?>
+            <tr>
+                <td><?= $cliente->getId() ?></td>
+                <td><?= $cliente->getNit() ?></td>
+                <td><?= $cliente->getNombre() ?></td>
+                <td><?= $cliente->getDireccion() ?></td>
+                <td><?= $cliente->getCupo() ?></td>
+                <td><?= $cliente->getSaldoCupo() ?></td>
+                <td>Porcentaje Visita</td>
+                <td>Ciudad</td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+
+<?php $this->start('scripts') ?>
+
+    <script type="text/javascript" src="app/reg-cliente.js?v=<?= time() ?>" ></script>
+    <script type="text/javascript" >
+        if( $( "#reg-cliente-form" ).length ) {
+            asignarEventos();
+        }
+    </script>
+
+<?php $this->stop() ?>
