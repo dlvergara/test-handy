@@ -3,6 +3,12 @@
 Start your project with composer:
 
 ```bash
+$ composer install
+```
+
+and then
+
+```bash
 $ composer serve
 ```
 
