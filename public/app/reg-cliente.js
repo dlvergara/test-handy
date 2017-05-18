@@ -98,7 +98,7 @@ function guardarCliente() {
     };
 
     $.ajax({
-        url: "/api/cliente",
+        url: "/api/cliente/",
         method: "POST",
         data: data,
         beforeSend: function(){

@@ -58,7 +58,7 @@ class Cliente implements JsonSerializable
      * @ORM\Column(name="procentaje_visita", type="decimal")
      * @var string
      */
-    private $procentaje_visita;
+    private $porcentaje_visita;
 
     /**
      * @ORM\Column(name="ciudades_id_ciudades", type="integer" )
@@ -195,18 +195,18 @@ class Cliente implements JsonSerializable
     /**
      * @return string
      */
-    public function getProcentajeVisita()
+    public function getPorcentajeVisita()
     {
-        return $this->procentaje_visita;
+        return $this->porcentaje_visita;
     }
 
     /**
-     * @param string $procentaje_visita
+     * @param string $porcentaje_visita
      * @return Cliente
      */
-    public function setProcentajeVisita($procentaje_visita)
+    public function setPorcentajeVisita($porcentaje_visita)
     {
-        $this->procentaje_visita = $procentaje_visita;
+        $this->porcentaje_visita = $porcentaje_visita;
         return $this;
     }
 
@@ -215,7 +215,7 @@ class Cliente implements JsonSerializable
         $data = [
             'id' => $this->getId(),
             'nombre' => $this->getNombre(),
-            'porcentaje_visita' => $this->getProcentajeVisita(),
+            'porcentaje_visita' => $this->getPorcentajeVisita(),
         ];
         return $data;
     }

@@ -2,20 +2,19 @@
 
 namespace App\Action;
 
-use App\Entity\Ciudades;
-use App\Entity\Estados;
-use app\models\Departamento;
+use App\Entity\Cliente;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
-use App\Entity\Cliente;
+use App\Entity\Visita;
 
 class VisitaAction
 {
     private $entityManager;
     public $error = [];
+    public $cliente;
 
     public function __construct(EntityManager $entityManager)
     {
@@ -24,12 +23,13 @@ class VisitaAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $return = [];
-        $params = $request->getParsedBody();
+        $return     = [];
+        $params     = $request->getParsedBody();
+
         if( !empty($params) ) {
             try{
                 if( $this->validate($params) ) {
-                    $this->saveCliente( $params );
+                    $this->save( $params );
                 } else {
                     $return = $this->error;
                 }
@@ -42,41 +42,41 @@ class VisitaAction
         return new JsonResponse($return);
     }
 
+    /**
+     * @param $params
+     * @return bool
+     */
     function validate( &$params ) {
-        if( empty($params['nit']) ) {
-            $this->error['error']['nit'] = 'Nit es requerido';
-        }
-        if( empty($params['nombre']) ) {
-            $this->error['error']['nombre'] = 'Nombre es requerido';
-        }
-        if( empty($params['direccion']) ) {
-            $this->error['error']['direccion'] = 'Direccion es requerido';
-        }
-        if( empty($params['telefono']) ) {
-            $this->error['error']['telefono'] = 'Teléfono es requerido';
-        }
-        if( empty($params['pais']) ) {
-            $this->error['error']['pais'] = 'País es requerido';
-        }
-        if( empty($params['departamento']) ) {
-            $this->error['error']['departamento'] = 'Departamento es requerido';
-        }
-        if( empty($params['ciudad']) ) {
-            $this->error['error']['ciudad'] = 'Ciudad es requerido';
+        $porcentajeVisita = 0;
+
+        if( empty($params['idCliente']) ) {
+            $this->error['error']['cliente'] = 'No se ha seleccionado un cliente';
         } else {
-            if( !is_numeric($params['ciudad']) ) {
-                $this->saveCiudadEstado( $params );
+            $cliente = $this->entityManager->getRepository(Cliente::class)->find($params['idCliente']);
+            if( empty($cliente) ) {
+                $this->error['error']['cliente'] = 'El cliente seleccionado no es valido';
             }
+            $this->cliente = $cliente;
+            $porcentajeVisita = $cliente->getPorcentajeVisita();
         }
-        if( empty($params['cupo']) ) {
-            $this->error['error']['cupo'] = 'Cupo es requerido';
-        } else if( floatval($params['cupo']) <= 0 ) {
-            $this->error['error']['cupo'] = 'Cupo es requerido';
+
+        if( empty($params['fecha']) ) {
+            $this->error['error']['fecha'] = 'Fecha es requerido';
         }
-        if( empty($params['porcentaje_visitas']) ) {
-            $this->error['error']['porcentaje_visitas'] = 'Porcentaje de visitas es requerido';
-        } else if( floatval($params['porcentaje_visitas']) <= 0 || floatval($params['porcentaje_visitas']) > 100 ) {
-            $this->error['error']['cupo'] = 'El porcentaje visitas es inadecuado';
+        if( empty($params['vendedor']) ) {
+            $this->error['error']['vendedor'] = 'Vendedor es requerido';
+        }
+        if( empty($params['valor_neto']) ) {
+            $this->error['error']['valor_neto'] = 'Valor Neto es requerido';
+        }
+        if( empty($params['valor_visita']) ) {
+            $this->error['error']['valor_visita'] = 'Valor visita es requerido';
+        } else {
+            /*
+            if( ($params['valor_neto'] * $porcentajeVisita) != floatval($params['valor_visita']) ) {
+                $this->error['error']['valor_visita'] = 'Valor visita es inadecuado';
+            }
+            */
         }
 
         return empty($this->error);
@@ -85,41 +85,20 @@ class VisitaAction
     /**
      * @param $params
      */
-    function saveCliente( $params ) {
+    function save( $params ) {
 
-        $cliente = new Cliente();
-        $cliente->setNit(md5($params['nit']));
-        $cliente->setDireccion($params['direccion']);
-        $cliente->setNombre($params['nombre']);
-        $cliente->setSaldoCupo($params['cupo']);
-        $cliente->setCupo($params['cupo']);
-        $cliente->setProcentajeVisita($params['porcentaje_visitas']);
-        $cliente->setCiudadesIdCiudades($params['ciudad']);
+        $visita = new Visita();
+        $visita->setFecha($params['fecha']);
+        $visita->setClienteIdCliente( $this->cliente->getId() );
+        $visita->setObservaciones($params['observaciones']);
+        $visita->setValorNeto($params['valor_neto']);
+        $visita->setValorVisita($params['valor_visita']);
+        $visita->setVendedorIdVendedor($params['vendedor']);
 
-        $this->entityManager->persist($cliente);
-        $this->entityManager->flush($cliente);
+        $this->entityManager->persist($visita);
+        $this->entityManager->flush($visita);
 
-        $return['id_cliente'] = $cliente->getId();
+        $return['id_visita'] = $visita->getId();
     }
 
-    /**
-     *
-     * @param $params
-     */
-    function saveCiudadEstado( &$params ) {
-
-        $departamento = new Estados();
-        $departamento->setNombre($params['departamento']);
-        $departamento->setPaisesIdPaises($params['pais']);
-        $this->entityManager->persist($departamento);
-        $this->entityManager->flush();
-
-        $ciudad = new Ciudades();
-        $ciudad->setNombre($params['ciudad']);
-        $ciudad->setEstadosIdEstados($departamento->getId());
-        $this->entityManager->persist($ciudad);
-        $this->entityManager->flush();
-
-        $params['ciudad'] = $ciudad->getId();
-    }
 }

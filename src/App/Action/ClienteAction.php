@@ -93,7 +93,7 @@ class ClienteAction
         $cliente->setNombre($params['nombre']);
         $cliente->setSaldoCupo($params['cupo']);
         $cliente->setCupo($params['cupo']);
-        $cliente->setProcentajeVisita($params['porcentaje_visitas']);
+        $cliente->setPorcentajeVisita($params['porcentaje_visitas']);
         $cliente->setCiudadesIdCiudades($params['ciudad']);
 
         $this->entityManager->persist($cliente);

@@ -18,7 +18,8 @@ function guardarData() {
         "vendedor": $("#vendedor").val(),
         "valor_neto": $("#valor_neto").val(),
         "valor_visita": $("#valor_visita").val(),
-        "observaciones": $("#observaciones").val()
+        "observaciones": $("#observaciones").val(),
+        "idCliente": idCliente
     };
 
     $.ajax({

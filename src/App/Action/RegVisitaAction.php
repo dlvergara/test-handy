@@ -35,7 +35,11 @@ class RegVisitaAction
         if( isset($params['idCliente']) ) {
             $cliente = $this->entityManager->getRepository(Cliente::class)->find($params['idCliente']);
             $data['cliente'] = $cliente->jsonSerialize();
+        } else {
+            $data = ['status'=>'Error','reason'=>'Debe seleccionar un cliente de la lista'];
+            return new HtmlResponse($this->template->render('error::error', $data));
         }
+
         return new HtmlResponse($this->template->render('app::reg-visita', $data));
     }
 }

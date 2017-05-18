@@ -64,6 +64,7 @@ $this->layout('layout::default', ['title' => 'Home'])
         <?php
         if( !empty($cliente) ) {
         ?>
+        var idCliente = <?= empty($cliente['id'])? 0 : $cliente['id']; ?>;
         var procentajeVisita = <?= empty($cliente['porcentaje_visita'])? 0 : $cliente['porcentaje_visita']; ?>;
         <?php
         }
