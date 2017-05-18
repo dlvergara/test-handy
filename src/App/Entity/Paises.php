@@ -21,7 +21,7 @@ class Paises
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @var int
      */
-    private $id;
+    private $id_paises;
 
     /**
      * @ORM\Column(name="nombre", type="string", length=255)
@@ -40,16 +40,16 @@ class Paises
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id_paises;
     }
 
     /**
-     * @param int $id
+     * @param int $id_paises
      * @return Paises
      */
-    public function setId($id)
+    public function setId($id_paises)
     {
-        $this->id = $id;
+        $this->id_paises = $id_paises;
         return $this;
     }
 

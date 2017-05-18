@@ -12,7 +12,7 @@ use Zend\Stdlib\JsonSerializable;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="Cliente")
+ * @ORM\Table(name="cliente")
  */
 class Cliente implements JsonSerializable
 {

@@ -22,7 +22,7 @@ class Ciudades implements JsonSerializable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @var int
      */
-    private $id;
+    private $id_ciudades;
 
     /**
      * @ORM\Column(name="nombre", type="string", length=70)
@@ -41,7 +41,7 @@ class Ciudades implements JsonSerializable
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id_ciudades;
     }
 
     /**
@@ -50,7 +50,7 @@ class Ciudades implements JsonSerializable
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id_ciudades = $id;
         return $this;
     }
 
