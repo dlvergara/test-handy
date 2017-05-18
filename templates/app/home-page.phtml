@@ -2,8 +2,9 @@
 <?php
 $dataPaises = [];
 foreach ($conteoPaises as $detallePaises){
-    $dataPaises[$detallePaises['nombre']] = $detallePaises['num_ciudades'];
+    $dataPaises[utf8_encode($detallePaises['codigo'])] = $detallePaises['num_ciudades'];
 }
+
 ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -129,33 +130,36 @@ foreach ($conteoPaises as $detallePaises){
                     <i class="fa fa-map-marker"></i>
 
                     <h3 class="box-title">
-                        Visitors
+                        Nuevos Clientes
                     </h3>
                 </div>
                 <div class="box-body">
                     <div id="world-map" style="height: 250px; width: 100%;"></div>
                 </div>
-                <!-- /.box-body-->
+
+                <!-- /.box-body
                 <div class="box-footer no-border">
                     <div class="row">
                         <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
                             <div id="sparkline-1"></div>
-                            <div class="knob-label">Visitors</div>
+                            <div class="knob-label">Clientes</div>
                         </div>
-                        <!-- ./col -->
+
                         <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
                             <div id="sparkline-2"></div>
                             <div class="knob-label">Online</div>
                         </div>
-                        <!-- ./col -->
+
                         <div class="col-xs-4 text-center">
                             <div id="sparkline-3"></div>
                             <div class="knob-label">Exists</div>
                         </div>
-                        <!-- ./col -->
+
                     </div>
-                    <!-- /.row -->
+
                 </div>
+                -->
+
             </div>
             <!-- /.box -->
 
@@ -194,19 +198,7 @@ foreach ($conteoPaises as $detallePaises){
         $(".knob").knob();
 
         //jvectormap data
-        var visitorsData =
-            <?php
-            echo json_encode($dataPaises);
-            /*
-            $data = '';
-            foreach ($conteoPaises as $key => $conteoPais) {
-                $data .= '"' . $key . '": ' . $conteoPais . ', ';
-            }
-            $data = substr(trim($data), 0, strlen($data) - 2);
-            echo $data;
-            */
-            ?>
-        ;
+        var visitorsData =<?= json_encode($dataPaises) ?>;
 
         //World map by jvectormap
         $('#world-map').vectorMap({
@@ -230,7 +222,7 @@ foreach ($conteoPaises as $detallePaises){
             },
             onRegionLabelShow: function (e, el, code) {
                 if (typeof visitorsData[code] != "undefined")
-                    el.html(el.html() + ': ' + visitorsData[code] + ' new visitors');
+                    el.html(el.html() + ': ' + visitorsData[code] + ' nuevos Clientes');
             }
         });
 /*
